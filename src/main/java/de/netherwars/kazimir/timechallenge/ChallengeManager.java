@@ -20,11 +20,17 @@ public class ChallengeManager {
     }
     public Challenge getChallenge(String name){
         if(!challengeMap.containsKey(name)){
-            //TODO: Challenge laden
+            //TODO: load Challenge
         }
         return challengeMap.get(name);
     }
     public void useCheckpoint(Sign checkpointSign,String playerName){
+
+    }
+    public void createCheckpoint(Sign checkpointSign,String playerName){
+
+    }
+    public void destroyCheckpoint(Sign checkpointSign,String playerName){
 
     }
 }

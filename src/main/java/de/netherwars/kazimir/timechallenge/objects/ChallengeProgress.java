@@ -11,4 +11,5 @@ public class ChallengeProgress {
     private Challenge challenge;
     private Player player;
     private int currentCheckpoint;
+    private long startTime=0;
 }
