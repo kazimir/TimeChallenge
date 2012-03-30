@@ -27,21 +27,25 @@ import java.util.logging.Logger;
 
 public class TimeChallenge extends JavaPlugin {
     private static final Logger log = Logger.getLogger("Minecraft.TimeChallenge");
-        
+    private ChallengeManager challengeManager;
     @Override
     public void onEnable() {
         startup();
+        this.challengeManager=new ChallengeManager();
         new ChallengeSignListener(this);
+
         log.info(this + " is now enabled");
     }
 
     @Override
     public void onDisable() {
         shutdown();
-
+        this.challengeManager=null;
         log.info(this + " is now disabled");
     }
-
+    public ChallengeManager getChallengeManager(){
+        return this.challengeManager;
+    }
     private void startup() {
         ConfigurationSerialization.registerClass(Challenge.class);
         Configuration config = getConfig();
