@@ -16,9 +16,13 @@
  */
 package de.netherwars.kazimir.timechallenge;
 
-import java.util.logging.Logger;
+import de.netherwars.kazimir.timechallenge.objects.Challenge;
 import org.bukkit.configuration.Configuration;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
+import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.logging.Logger;
 
 public class TimeChallenge extends JavaPlugin {
     private static final Logger log = Logger.getLogger("Minecraft.TimeChallenge");
@@ -38,11 +42,13 @@ public class TimeChallenge extends JavaPlugin {
     }
 
     private void startup() {
+        ConfigurationSerialization.registerClass(Challenge.class);
         Configuration config = getConfig();
 
 
         if (config.getKeys(true).isEmpty()) {
             config.options().copyDefaults(true);
+
         }
 
     }
