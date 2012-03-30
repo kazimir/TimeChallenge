@@ -19,6 +19,10 @@ public class Challenge implements ConfigurationSerializable{
     private String name;
     private Vector<Checkpoint> checkpoints = new Vector<Checkpoint>();
 
+    public Challenge(){
+
+    }
+
     public Challenge(Map<String, Object> map){
        if(map.containsKey("name")){
            this.name = String.valueOf(map.get("name"));
@@ -30,5 +34,13 @@ public class Challenge implements ConfigurationSerializable{
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("name", name);
         return null;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

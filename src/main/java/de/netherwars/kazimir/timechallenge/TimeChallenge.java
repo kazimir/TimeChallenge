@@ -18,15 +18,19 @@ package de.netherwars.kazimir.timechallenge;
 
 import de.netherwars.kazimir.timechallenge.objects.Challenge;
 import org.bukkit.configuration.Configuration;
-import org.bukkit.configuration.serialization.ConfigurationSerializable;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class TimeChallenge extends JavaPlugin {
     private static final Logger log = Logger.getLogger("Minecraft.TimeChallenge");
-        
+
+
     @Override
     public void onEnable() {
         startup();
@@ -53,7 +57,26 @@ public class TimeChallenge extends JavaPlugin {
 
     }
 
+    private void saveCustomConfig() {
+        File customConfigFile = new File(getDataFolder()+ "/challenges", "customConfig.yml");
+        YamlConfiguration customConfig = YamlConfiguration.loadConfiguration(customConfigFile);
+        Challenge c = new Challenge();
+        c.setName("Test");
+        customConfig.set("challenge", c.getName());
+        try {
+            customConfig.save(customConfigFile);
+        } catch (IOException ex) {
+            Logger.getLogger(JavaPlugin.class.getName()).log(Level.SEVERE, "Could not save config to " + customConfigFile, ex);
+        }
+    }
+
+    private void loadConfig() {
+
+    }
+
+
     private void shutdown() {
+        saveCustomConfig();
         saveConfig();
     }
 }
