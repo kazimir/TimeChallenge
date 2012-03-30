@@ -18,6 +18,8 @@ package de.netherwars.kazimir.timechallenge;
 
 import de.netherwars.kazimir.timechallenge.listener.ChallengeSignListener;
 import de.netherwars.kazimir.timechallenge.objects.Challenge;
+import de.netherwars.kazimir.timechallenge.objects.Checkpoint;
+import de.netherwars.kazimir.timechallenge.objects.CheckpointTypes;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
@@ -25,6 +27,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -47,7 +51,8 @@ public class TimeChallenge extends JavaPlugin {
     }
 
     private void startup() {
-        ConfigurationSerialization.registerClass(Challenge.class);
+        ConfigurationSerialization.registerClass(Challenge.class,"Timechallenge.Challenge");
+        ConfigurationSerialization.registerClass(Checkpoint.class,"Timechallenge.Checkpoint");
         Configuration config = getConfig();
 
 
@@ -63,7 +68,10 @@ public class TimeChallenge extends JavaPlugin {
         YamlConfiguration customConfig = YamlConfiguration.loadConfiguration(customConfigFile);
         Challenge c = new Challenge();
         c.setName("Test");
-        customConfig.set("challenge", c.getName());
+        ArrayList<Checkpoint> v = c.getCheckpoints();
+        v.add(new Checkpoint(CheckpointTypes.START,1,2,3));
+        v.add(new Checkpoint(CheckpointTypes.END, 4, 5, 6));
+        customConfig.set("challenge", c);
         try {
             customConfig.save(customConfigFile);
         } catch (IOException ex) {
