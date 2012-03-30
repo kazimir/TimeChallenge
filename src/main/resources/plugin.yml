@@ -1,0 +1,7 @@
+name: ${project.name}
+version: ${project.version}
+author: kazimir
+description: ${project.description}
+main: de.netherwars.kazimir.timechallenge.TimeChallenge
+load: postworld
+database: false
