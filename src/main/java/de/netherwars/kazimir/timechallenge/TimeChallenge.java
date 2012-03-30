@@ -16,6 +16,7 @@
  */
 package de.netherwars.kazimir.timechallenge;
 
+import de.netherwars.kazimir.timechallenge.listener.ChallengeSignListener;
 import de.netherwars.kazimir.timechallenge.objects.Challenge;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -34,7 +35,7 @@ public class TimeChallenge extends JavaPlugin {
     @Override
     public void onEnable() {
         startup();
-
+        new ChallengeSignListener(this);
         log.info(this + " is now enabled");
     }
 
