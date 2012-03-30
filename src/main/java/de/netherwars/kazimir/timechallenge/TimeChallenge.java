@@ -19,7 +19,6 @@ package de.netherwars.kazimir.timechallenge;
 import de.netherwars.kazimir.timechallenge.listener.ChallengeSignListener;
 import de.netherwars.kazimir.timechallenge.objects.Challenge;
 import de.netherwars.kazimir.timechallenge.objects.Checkpoint;
-import de.netherwars.kazimir.timechallenge.objects.CheckpointTypes;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
@@ -27,18 +26,17 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class TimeChallenge extends JavaPlugin {
     private static final Logger log = Logger.getLogger("Minecraft.TimeChallenge");
     private ChallengeManager challengeManager;
+
     @Override
     public void onEnable() {
         startup();
-        this.challengeManager=new ChallengeManager();
+        this.challengeManager = new ChallengeManager();
         new ChallengeSignListener(this);
 
         log.info(this + " is now enabled");
@@ -47,49 +45,46 @@ public class TimeChallenge extends JavaPlugin {
     @Override
     public void onDisable() {
         shutdown();
-        this.challengeManager=null;
+        this.challengeManager = null;
         log.info(this + " is now disabled");
     }
-    public ChallengeManager getChallengeManager(){
+
+    public ChallengeManager getChallengeManager() {
         return this.challengeManager;
     }
-    
+
     private void startup() {
-        ConfigurationSerialization.registerClass(Challenge.class,"Timechallenge.Challenge");
-        ConfigurationSerialization.registerClass(Checkpoint.class,"Timechallenge.Checkpoint");
+        ConfigurationSerialization.registerClass(Challenge.class, "Timechallenge.Challenge");
+        ConfigurationSerialization.registerClass(Checkpoint.class, "Timechallenge.Checkpoint");
         Configuration config = getConfig();
 
 
         if (config.getKeys(true).isEmpty()) {
             config.options().copyDefaults(true);
-
         }
 
     }
 
-    private void saveCustomConfig() {
-        File customConfigFile = new File(getDataFolder()+ "/challenges", "customConfig.yml");
-        YamlConfiguration customConfig = YamlConfiguration.loadConfiguration(customConfigFile);
-        Challenge c = new Challenge();
-        c.setName("Test");
-        ArrayList<Checkpoint> v = c.getCheckpoints();
-        v.add(new Checkpoint(CheckpointTypes.START,1,2,3));
-        v.add(new Checkpoint(CheckpointTypes.END, 4, 5, 6));
-        customConfig.set("challenge", c);
+    private void saveChallenge(Challenge challenge) {
+        File challengeFile = new File(getDataFolder() + "/challenges", challenge.getName() + ".yml");
+        YamlConfiguration challengeConfig = YamlConfiguration.loadConfiguration(challengeFile);
+        challengeConfig.set("challenge", challenge);
         try {
-            customConfig.save(customConfigFile);
+            challengeConfig.save(challengeFile);
         } catch (IOException ex) {
-            Logger.getLogger(JavaPlugin.class.getName()).log(Level.SEVERE, "Could not save config to " + customConfigFile, ex);
+            Logger.getLogger(JavaPlugin.class.getName()).log(Level.SEVERE, this + "Could not save challenge to " + challengeFile, ex);
         }
     }
 
-    private void loadConfig() {
-
+    private Challenge loadChallenge(String name) {
+        File challengeFile = new File(getDataFolder() + "/challenges", name + ".yml");
+        YamlConfiguration challengeConfig = YamlConfiguration.loadConfiguration(challengeFile);
+        Challenge c = (Challenge) challengeConfig.get("challenge");
+        return c;
     }
 
 
     private void shutdown() {
-        saveCustomConfig();
         saveConfig();
     }
 }
