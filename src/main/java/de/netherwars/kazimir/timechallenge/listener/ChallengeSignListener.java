@@ -34,6 +34,9 @@ public class ChallengeSignListener implements Listener {
                 Sign sign = (Sign) block.getState();
                 if ("[challenge]".equalsIgnoreCase(sign.getLine(0))) {
                     this.plugin.getChallengeManager().useCheckpoint(sign, event);
+                } else if (sign.getLine(0).isEmpty() && sign.getLine(1).isEmpty() && sign.getLine(2).isEmpty()
+                        && sign.getLine(3).isEmpty()) {
+                    this.plugin.getChallengeManager().addCheckpoint(sign, event);
                 }
             }
         }

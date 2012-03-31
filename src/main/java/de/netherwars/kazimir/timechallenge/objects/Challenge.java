@@ -20,6 +20,8 @@ public class Challenge implements ConfigurationSerializable {
     private String name;
     private String creator;
     private ArrayList<Checkpoint> checkpoints = new ArrayList<Checkpoint>();
+    private Checkpoint lastCheckpoint;
+    private int checkpointCount = 0;
 
     public Challenge(String name, String creator) {
         this.name = name;
@@ -33,6 +35,7 @@ public class Challenge implements ConfigurationSerializable {
         if (map.containsKey("checkpoints")) {
             this.checkpoints = (ArrayList<Checkpoint>) map.get("checkpoints");
         }
+        checkpointCount = checkpoints.size();
     }
 
     @Override
@@ -61,5 +64,23 @@ public class Challenge implements ConfigurationSerializable {
 
     public ArrayList<Checkpoint> getCheckpoints() {
         return checkpoints;
+    }
+
+    public int getCheckpointCount() {
+        return checkpointCount;
+    }
+
+    public void setCheckpointCount(int checkpointCount) {
+        this.checkpointCount = checkpointCount;
+    }
+
+    public void addCheckpoint(Checkpoint cp) {
+        checkpoints.add(cp);
+        lastCheckpoint = cp;
+        checkpointCount++;
+    }
+
+    public Checkpoint getLastCheckpoint() {
+        return lastCheckpoint;
     }
 }

@@ -87,4 +87,8 @@ public class TimeChallenge extends JavaPlugin {
     private void shutdown() {
         saveConfig();
     }
+
+    public static Logger getLog() {
+        return LOG;
+    }
 }
