@@ -15,21 +15,23 @@ import java.util.logging.Logger;
  * Time: 21:16
  */
 @SerializableAs("Timechallenge.Challenge")
-public class Challenge implements ConfigurationSerializable{
+public class Challenge implements ConfigurationSerializable {
     private static final Logger log = Logger.getLogger("Minecraft.TimeChallenge");
     private String name;
+    private String creator;
     private ArrayList<Checkpoint> checkpoints = new ArrayList<Checkpoint>();
 
-    public Challenge(){
-
+    public Challenge(String name, String creator) {
+        this.name = name;
+        this.creator = creator;
     }
 
-    public Challenge(Map<String, Object> map){
-       if(map.containsKey("name")){
-           this.name = String.valueOf(map.get("name"));
-       }
-        if(map.containsKey("checkpoints")){
-            this.checkpoints = (ArrayList<Checkpoint>)map.get("checkpoints");
+    public Challenge(Map<String, Object> map) {
+        if (map.containsKey("name")) {
+            this.name = String.valueOf(map.get("name"));
+        }
+        if (map.containsKey("checkpoints")) {
+            this.checkpoints = (ArrayList<Checkpoint>) map.get("checkpoints");
         }
     }
 
@@ -47,6 +49,14 @@ public class Challenge implements ConfigurationSerializable{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
     }
 
     public ArrayList<Checkpoint> getCheckpoints() {

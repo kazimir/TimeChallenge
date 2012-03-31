@@ -30,23 +30,23 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class TimeChallenge extends JavaPlugin {
-    private static final Logger log = Logger.getLogger("Minecraft.TimeChallenge");
+    private static final Logger LOG = Logger.getLogger("Minecraft.TimeChallenge");
     private ChallengeManager challengeManager;
 
     @Override
     public void onEnable() {
         startup();
-        this.challengeManager = new ChallengeManager();
+        this.challengeManager = new ChallengeManager(this);
         new ChallengeSignListener(this);
 
-        log.info(this + " is now enabled");
+        LOG.info(this + " is now enabled");
     }
 
     @Override
     public void onDisable() {
         shutdown();
         this.challengeManager = null;
-        log.info(this + " is now disabled");
+        LOG.info(this + " is now disabled");
     }
 
     public ChallengeManager getChallengeManager() {
@@ -65,18 +65,18 @@ public class TimeChallenge extends JavaPlugin {
 
     }
 
-    private void saveChallenge(Challenge challenge) {
+    public void saveChallenge(Challenge challenge) {
         File challengeFile = new File(getDataFolder() + "/challenges", challenge.getName() + ".yml");
         YamlConfiguration challengeConfig = YamlConfiguration.loadConfiguration(challengeFile);
         challengeConfig.set("challenge", challenge);
         try {
             challengeConfig.save(challengeFile);
         } catch (IOException ex) {
-            Logger.getLogger(JavaPlugin.class.getName()).log(Level.SEVERE, this + "Could not save challenge to " + challengeFile, ex);
+            LOG.log(Level.WARNING, this + " Could not save challenge to " + challengeFile, ex);
         }
     }
 
-    private Challenge loadChallenge(String name) {
+    public Challenge loadChallenge(String name) {
         File challengeFile = new File(getDataFolder() + "/challenges", name + ".yml");
         YamlConfiguration challengeConfig = YamlConfiguration.loadConfiguration(challengeFile);
         Challenge c = (Challenge) challengeConfig.get("challenge");
